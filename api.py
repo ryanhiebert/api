@@ -35,10 +35,12 @@ def home():
                 'title': 'Why I\'m the right person to work for you',
                 'method': 'GET',
                 'href': '/right-for-you',
-                'fields': {
-                    'name': 'company',
-                    'type': 'text',
-                }
+                'fields': [
+                    {
+                        'name': 'company',
+                        'type': 'text',
+                    }
+                ]
             }
         ]
     })
