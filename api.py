@@ -26,6 +26,7 @@ def home():
                 'immutability in programming languages',
                 'learning forever more',
                 'being a better human being',
+                'changing my family\'s financial legacy',
             ]
         },
         'actions': [
