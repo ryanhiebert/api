@@ -60,17 +60,10 @@ def tictactoe():
                 'href': 'tictactoe/{}'.format(board),
                 'fields': [
                     {
-                        'name': 'player',
-                        'type': 'text',
-                        'value': board.turn(),
-                    },
-                    {
                         'name': 'move',
-                        'type': 'text',
+                        'type': 'select',
                         'options': [
-                            'a0', 'a1', 'a2',
-                            'b0', 'b1', 'b2',
-                            'c0', 'c1', 'c2',
+                            {'value': 'abc'[r] + str(c)} for r,c in board.empty()
                         ]
                     }
                 ]
@@ -91,20 +84,17 @@ def tictactoe_move(state):
 
     board = TicTacToe(state)
 
-    player = request.args.get('player', '')
     move = request.args.get('move', '')
-    if player and move:
+    if move:
         if board.completed():
             abort(422)
         move = 'abc'.index(move[0]), '012'.index(move[1])
         if move not in board.empty():
             abort(422)
-        if player not in ('x', 'o'):
-            abort(422)
 
-        board = board.move(player, move)
+        board = board.move(move)
 
-    return jsonify({
+    board_dict = {
         'class': 'tictactoe-board',
         'properties': {
             'repr': str(board),
@@ -112,7 +102,13 @@ def tictactoe_move(state):
             'winner': board.winner(),
             'completed': board.completed(),
         },
-        'actions': [
+        'links': [
+            {'rel': ['self'], 'href': '/games/tictactoe/{}'.format(board)},
+        ]
+    }
+
+    if not board.completed():
+        board_dict['actions'] = [
             {
                 'name': 'tictactoe-move',
                 'title': 'Make your move',
@@ -120,23 +116,17 @@ def tictactoe_move(state):
                 'href': '/games/tictactoe/{}'.format(board),
                 'fields': [
                     {
-                        'name': 'player',
-                        'type': 'text',
-                        'value': board.turn(),
-                    },
-                    {
                         'name': 'move',
-                        'type': 'text',
-                        'options':
-                            ['abc'[r]+str(c) for r,c in board.empty()]
+                        'type': 'select',
+                        'options': [
+                            {'value': 'abc'[r] + str(c)} for r,c in board.empty()
+                        ]
                     }
                 ]
             }
-        ],
-        'links': [
-            {'rel': ['self'], 'href': '/games/tictactoe/{}'.format(board)},
         ]
-    })
+
+    return jsonify(board_dict)
 
 
 if __name__ == '__main__':

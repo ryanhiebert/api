@@ -34,22 +34,17 @@ class TicTacToe(tuple):
 
         return tuple.__new__(cls, board)
 
-    def move(self, player, space):
+    def move(self, space):
         """
-        Player is one of 'x' or 'y'.
-
         Space is a tuple representing the row and column space to occupy,
         using 0-based integer indexes.
         """
-        if player not in 'xy':
-            raise ValueError('not a valid player: {}'.format(repr(player)))
-
         if space[0] not in list(range(3)) or space[1] not in list(range(3)):
             raise ValueError('not a valid space: {}'.format(repr(space)))
 
         board = [list(row) for row in self]
         row, col = space
-        board[row][col] = player
+        board[row][col] = self.turn()
         return TicTacToe(board)
 
     def empty(self):
