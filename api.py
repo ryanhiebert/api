@@ -47,35 +47,8 @@ def home():
         ]
     })
 
-@app.route('/games/tictactoe')
-def tictactoe():
-    board = TicTacToe()
-
-    return jsonify({
-        'actions': [
-            {
-                'name': 'tictactoe-move',
-                'title': 'Make your move',
-                'method': 'GET',
-                'href': 'tictactoe/{}'.format(board),
-                'fields': [
-                    {
-                        'name': 'move',
-                        'type': 'select',
-                        'options': [
-                            {'value': 'abc'[r] + str(c)} for r,c in board.empty()
-                        ]
-                    }
-                ]
-            }
-        ],
-        'links': [
-            {'rel': ['self'], 'href': '/games/tictactoe/{}'.format(board)},
-        ]
-    })
-
 @app.route('/games/tictactoe/<state>')
-def tictactoe_move(state):
+def tictactoe(state):
     len(state) == 9 or abort(404)
     all(s in 'xo-' for s in state) or abort(404)
     if (not state.count('x') == state.count('o') and
