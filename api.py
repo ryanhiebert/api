@@ -44,6 +44,19 @@ def home():
                     }
                 ]
             }
+        ],
+        'links': [
+            {'rel': ['self'], 'href': '/'},
+            {'rel': ['games'], 'href': '/games'},
+        ]
+    })
+
+@app.route('/games')
+def games():
+    return jsonify({
+        'links': [
+            {'rel': ['home'], 'href': '/'},
+            {'rel': ['tictactoe'], 'href': '/games/tictactoe/---------'}
         ]
     })
 
