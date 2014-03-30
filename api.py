@@ -48,6 +48,8 @@ def home():
         'links': [
             {'rel': ['self'], 'href': '/'},
             {'rel': ['games'], 'href': '/games'},
+            {'rel': ['github'], 'href': 'https://github.com/ryanhiebert'},
+            {'rel': ['source'], 'href': 'https://github.com/ryanhiebert/api'},
         ]
     })
 
