@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, url_for
 
 from tictactoe import TicTacToe
 
@@ -46,8 +46,8 @@ def home():
             }
         ],
         'links': [
-            {'rel': ['self'], 'href': '/'},
-            {'rel': ['games'], 'href': '/games'},
+            {'rel': ['self'], 'href': url_for('home')},
+            {'rel': ['games'], 'href': url_for('games')},
             {'rel': ['github'], 'href': 'https://github.com/ryanhiebert'},
             {'rel': ['source'], 'href': 'https://github.com/ryanhiebert/api'},
         ]
@@ -57,8 +57,8 @@ def home():
 def games():
     return jsonify({
         'links': [
-            {'rel': ['home'], 'href': '/'},
-            {'rel': ['tictactoe'], 'href': '/games/tictactoe/---------'}
+            {'rel': ['home'], 'href': url_for('home')},
+            {'rel': ['tictactoe'], 'href': url_for('tictactoe', state=str(TicTacToe()))}
         ]
     })
 
@@ -91,7 +91,7 @@ def tictactoe(state):
             'completed': board.completed(),
         },
         'links': [
-            {'rel': ['self'], 'href': '/games/tictactoe/{}'.format(board)},
+            {'rel': ['self'], 'href': url_for('tictactoe', state=str(board))},
         ]
     }
 
@@ -101,7 +101,7 @@ def tictactoe(state):
                 'name': 'tictactoe-move',
                 'title': 'Make your move',
                 'method': 'GET',
-                'href': '/games/tictactoe/{}'.format(board),
+                'href': url_for('tictactoe', state=str(board)),
                 'fields': [
                     {
                         'name': 'move',
