@@ -95,6 +95,7 @@ def tictactoe(state):
         },
         'links': [
             {'rel': ['self'], 'href': url_for('tictactoe', state=str(board))},
+            {'rel': ['games'], 'href': url_for('games')}
         ]
     }
 
