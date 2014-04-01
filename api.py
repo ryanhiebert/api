@@ -1,9 +1,12 @@
 import os
-from flask import Flask, jsonify, request, abort, url_for
+from flask import Flask, jsonify, request, abort, url_for as flask_url_for
 
 from tictactoe import TicTacToe
 
 app = Flask(__name__)
+
+def url_for(*args, **kwargs):
+    return flask_url_for(*args, _external=True, **kwargs)
 
 def siren(view):
     """Decorator to make a jsonify response use siren media type"""
