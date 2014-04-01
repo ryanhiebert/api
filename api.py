@@ -106,6 +106,9 @@ def contact():
     if not message:
         message = '--- NO MESSAGE ENTERED ---'
 
+    headers_list = request.headers.getlist("X-Forwarded-For")
+    user_ip = headers_list[0] if headers_list else request.remote_addr
+
     body = '''
     Someone visited your contact page from IP: {}
 
@@ -113,7 +116,7 @@ def contact():
 
     This is their message to you:
     {}
-    '''.format(request.remote_addr, sender, message)
+    '''.format(user_ip, sender, message)
 
     msg = Message(
         'Someone visted your contact page!',
