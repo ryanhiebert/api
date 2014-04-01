@@ -284,6 +284,7 @@ def tictactoe(state):
             'turn': board.turn(),
             'winner': board.winner(),
             'completed': board.completed(),
+            'state': board,
         },
         'links': [
             {'rel': ['self'], 'href': url_for('tictactoe', state=str(board))},
