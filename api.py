@@ -214,6 +214,20 @@ def right_for_you():
                         ]
                     },
                     {
+                        'reason': 'I believe that hypermedia is the future of web APIs, '
+                                    'and want to build reliable APIs to power the future.',
+                        'support': [
+                            'I want to build hypermedia because hypermedia is built on the well-known '
+                                'and proven concepts of URLs, links, and forms to build a stable and '
+                                'reliable machine-driven interfaces.',
+                            'I want to enable HTTP-browsing on the API to better enable quick '
+                                'development. I don’t have this done for my API yet, but soon. ',
+                            'I want to demonstrate that better APIs can be built if we have '
+                                'forms (actions) on the API, and that just using URI templates '
+                                'isn’t sufficient.',
+                        ]
+                    },
+                    {
                         'reason': 'Simple has inspired me that a company can be '
                                     'successful, beautiful, ethical, and revolutionary.',
                         'support': [
