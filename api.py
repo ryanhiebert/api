@@ -127,7 +127,7 @@ def contact():
     return jsonify({
         'links': [
             {'rel': ['self'], 'href': url_for('contact')},
-            {'rel': ['self'], 'href': url_for('home')}
+            {'rel': ['home'], 'href': url_for('home')}
         ],
         'actions': [
             {
