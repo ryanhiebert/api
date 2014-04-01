@@ -116,9 +116,10 @@ def contact():
     '''.format(request.remote_addr, sender, message)
 
     msg = Message(
-        body,
+        'Someone visted your contact page!',
         sender=('RyanHiebert API', 'contact@api.ryanhiebert.com'),
         recipients=['ryan@ryanhiebert.com'])
+    msg.body = body
 
     if not sender == 'cowpie':
         mail.send(msg)
