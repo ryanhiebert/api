@@ -53,8 +53,70 @@ def home():
             {'rel': ['games'], 'href': url_for('games')},
             {'rel': ['github'], 'href': 'https://github.com/ryanhiebert'},
             {'rel': ['source'], 'href': 'https://github.com/ryanhiebert/api'},
+            {'rel': ['right-for-you-simple'], 'href': url_for('right_for_you') + '?company=simple'},
         ]
     })
+
+@app.route('/right-for-you')
+def right_for_you():
+    company = request.args.get('company', '')
+    if company not in ('simple', 'Simple'):
+        abort(404)
+    else:
+        return jsonify({
+            'properties': {
+                'reasons': [
+                    {
+                        'reason': 'Accounting and personal finance have long been an active interest of mine.',
+                        'support': [
+                            'I have been working on an accounting API for some time, '
+                                'all in my free time, mostly iterating and discarding and '
+                                'reworking the models, over and over again. It’s still mostly '
+                                'vaporware, but the models I’m currently iterated to are '
+                                'available at https://github.com/ryanhiebert/finances.',
+                            'I took an accounting course for the purpose of understanding '
+                                'the domain better to make a personal finance software package.',
+                            'I want to make a personal finance application that both has a simple '
+                                'front-end for everyday users, and also has a fundamentally solid model '
+                                'that can be extended to an interface that would please a professional '
+                                'accountant.',
+                        ]
+                    },
+                    {
+                        'reason': 'I constantly am looking to build solid, reliable, testable, readable, '
+                                    'and beautiful code. This has lead me down the path of immutable, '
+                                    'mostly functional programming.',
+                        'support': [
+                            'Python has been my go-to language for a while, but its pervasive mutability '
+                                'has had me designing a language that I would find both beautiful, simple, '
+                                'and safe. See the repository for this vaporware at https://github.com/ryanhiebert/brooke.',
+                            'I believe that high-order thinking helps the problem to fall away from the '
+                                'implementation, so that you can concentrate on the problem you’re looking '
+                                'to solve, instead of having to solve the problem of your tool simultaneously.',
+                            'Rich Hickey has inspired me that programming can be right and correct. '
+                                'I love re-watching videos of talks that he has given.'
+                        ]
+                    },
+                    {
+                        'reason': 'Simple has inspired me that a company can be '
+                                    'successful, beautiful, ethical, and revolutionary.',
+                        'support': [
+                            'Simple is clearly a place that I would love to work, and where I would be '
+                                'inspired to work for the mission and vision of the company.',
+                            'Let me show you that I’m worth a risk, and that I '
+                                'will be a valuable addition to your team.',
+                        ]
+                    }
+                ]
+            },
+            'links': [
+                {'rel': ['self'], 'href': url_for('right_for_you') + '?company=simple'},
+                {'rel': ['home'], 'href': url_for('home')},
+                {'rel': ['project'], 'href': 'https://github.com/ryanhiebert/finances'},
+                {'rel': ['project'], 'href': 'https://github.com/ryanhiebert/brooke'}
+            ],
+            'actions': [],
+        })
 
 @app.route('/games')
 def games():
