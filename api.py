@@ -1,16 +1,12 @@
 import os
 from flask import Flask, jsonify, request, abort, url_for as flask_url_for
 from flask.ext.mail import Mail, Message
+from flask.ext.heroku import Heroku
 
 from tictactoe import TicTacToe
 
 app = Flask(__name__)
-app.config.setdefault('MAIL_SERVER', os.environ.get('MAILGUN_SMTP_SERVER'))
-app.config.setdefault('MAIL_USERNAME', os.environ.get('MAILGUN_SMTP_LOGIN'))
-app.config.setdefault('MAIL_PASSWORD', os.environ.get('MAILGUN_SMTP_PASSWORD'))
-app.config.setdefault('MAIL_PORT', os.environ.get('MAILGUN_SMTP_PORT'))
-app.config.setdefault('MAIL_USE_TLS', True)
-
+heroku = Heroku(app)
 mail = Mail(app)
 
 def url_for(*args, **kwargs):
