@@ -1,9 +1,17 @@
 import os
 from flask import Flask, jsonify, request, abort, url_for as flask_url_for
+from flask.ext.mail import Mail, Message
 
 from tictactoe import TicTacToe
 
 app = Flask(__name__)
+app.config.setdefault('MAIL_SERVER', os.environ.get('MAILGUN_SMTP_SERVER'))
+app.config.setdefault('MAIL_USERNAME', os.environ.get('MAILGUN_SMTP_LOGIN'))
+app.config.setdefault('MAIL_PASSWORD', os.environ.get('MAILGUN_SMTP_PASSWORD'))
+app.config.setdefault('MAIL_PORT', os.environ.get('MAILGUN_SMTP_PORT'))
+app.config.setdefault('MAIL_USE_TLS', True)
+
+mail = Mail(app)
 
 def url_for(*args, **kwargs):
     return flask_url_for(*args, _external=True, **kwargs)
@@ -21,6 +29,7 @@ def home():
     return jsonify({
         'properties': {
             'name': 'Ryan Hiebert',
+            'email': 'ryan@ryanhiebert.com',
             'age': 25,
             'interests': [
                 'repeatable deployments',
@@ -46,7 +55,39 @@ def home():
                         'type': 'text',
                     }
                 ]
-            }
+            },
+            {
+                'name': 'contact',
+                'title': 'Get in touch with me!',
+                'method': 'POST',
+                'href': url_for('contact'),
+                'fields': [
+                    {
+                        'name': 'from',
+                        'type': 'email',
+                    },
+                    {
+                        'name': 'message',
+                        'type': 'text',
+                    }
+                ]
+            },
+            {
+                'name': 'contact',
+                'title': 'Get in touch with me!',
+                'method': 'GET',
+                'href': url_for('contact'),
+                'fields': [
+                    {
+                        'name': 'from',
+                        'type': 'email',
+                    },
+                    {
+                        'name': 'message',
+                        'type': 'text',
+                    }
+                ]
+            },
         ],
         'links': [
             {'rel': ['self'], 'href': url_for('home')},
@@ -54,6 +95,76 @@ def home():
             {'rel': ['github'], 'href': 'https://github.com/ryanhiebert'},
             {'rel': ['source'], 'href': 'https://github.com/ryanhiebert/api'},
             {'rel': ['right-for-you-simple'], 'href': url_for('right_for_you') + '?company=simple'},
+        ]
+    })
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'GET':
+        sender = request.args.get('from', '')
+        message = request.args.get('message', '')
+    elif request.method == 'POST':
+        sender = request.form.get('from', '')
+        message = request.form.get('message', '')
+
+    if not message:
+        message = '--- NO MESSAGE ENTERED ---'
+
+    body = '''
+    Someone visited your contact page from IP: {}
+
+    They claimed to send the message to you from: {}
+
+    This is their message to you:
+    {}
+    '''.format(request.remote_addr, sender, message)
+
+    msg = Message(
+        body,
+        sender=('RyanHiebert API', 'contact@api.ryanhiebert.com'),
+        recipients=['ryan@ryanhiebert.com'])
+
+    if not sender == 'cowpie':
+        mail.send(msg)
+
+    return jsonify({
+        'links': [
+            {'rel': ['self'], 'href': url_for('contact')},
+            {'rel': ['self'], 'href': url_for('home')}
+        ],
+        'actions': [
+            {
+                'name': 'contact',
+                'title': 'Get in touch with me!',
+                'method': 'POST',
+                'href': url_for('contact'),
+                'fields': [
+                    {
+                        'name': 'from',
+                        'type': 'email',
+                    },
+                    {
+                        'name': 'message',
+                        'type': 'text',
+                    }
+                ]
+            },
+            {
+                'name': 'contact',
+                'title': 'Get in touch with me!',
+                'method': 'GET',
+                'href': url_for('contact'),
+                'fields': [
+                    {
+                        'name': 'from',
+                        'type': 'email',
+                    },
+                    {
+                        'name': 'message',
+                        'type': 'text',
+                    }
+                ]
+            },
         ]
     })
 
