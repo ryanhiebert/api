@@ -1,4 +1,5 @@
 import os
+import pprint
 from flask import Flask, jsonify, request, abort, url_for as flask_url_for
 from flask.ext.mail import Mail, Message
 from flask.ext.heroku import Heroku
@@ -116,7 +117,10 @@ def contact():
 
     This is their message to you:
     {}
-    '''.format(user_ip, sender, message)
+
+    These are the headers:
+    {}
+    '''.format(user_ip, sender, message, pprint.pformat(dict(request.headers)))
 
     msg = Message(
         'Someone visted your contact page!',
