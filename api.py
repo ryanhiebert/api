@@ -1,6 +1,6 @@
 import os
 import pprint
-from flask import Flask, jsonify, request, abort, url_for as flask_url_for
+from flask import Flask, jsonify, request, abort, redirect, url_for as flask_url_for
 from flask.ext.mail import Mail, Message
 from flask.ext.heroku import Heroku
 
@@ -276,6 +276,8 @@ def tictactoe(state):
             abort(422)
 
         board = board.move(move)
+
+        return redirect(url_for('tictactoe', state=str(board)))
 
     board_dict = {
         'class': 'tictactoe-board',
