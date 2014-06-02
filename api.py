@@ -92,7 +92,6 @@ def home():
             {'rel': ['games'], 'href': url_for('games')},
             {'rel': ['github'], 'href': 'https://github.com/ryanhiebert'},
             {'rel': ['source'], 'href': 'https://github.com/ryanhiebert/api'},
-            {'rel': ['right-for-you-simple'], 'href': url_for('right_for_you') + '?company=simple'},
             {'rel': ['doctype-spec siren'], 'href': 'https://github.com/kevinswiber/siren'}
         ]
     })
