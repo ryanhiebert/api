@@ -178,9 +178,83 @@ def contact():
 @siren
 def right_for_you():
     company = request.args.get('company', '')
-    if company not in ('simple', 'Simple'):
-        abort(404)
-    else:
+    if company in ('simple', 'Simple'):
+        return jsonify({
+            'properties': {
+                'reasons': [
+                    {
+                        'reason': 'Accounting and personal finance have long been an active interest of mine.',
+                        'support': [
+                            'I have been working on an accounting API for some time, '
+                                'all in my free time, mostly iterating and discarding and '
+                                'reworking the models, over and over again. It’s still mostly '
+                                'vaporware, but the models I’m currently iterated to are '
+                                'available at https://github.com/ryanhiebert/finances.',
+                            'I took an accounting course for the purpose of understanding '
+                                'the domain better to make a personal finance software package.',
+                            'I want to make a personal finance application that both has a simple '
+                                'front-end for everyday users, and also has a fundamentally solid model '
+                                'that can be extended to an interface that would please a professional '
+                                'accountant.',
+                        ]
+                    },
+                    {
+                        'reason': 'I love making code that is readable by non-programmers',
+                        'support': [
+                            'While not strictly necessary for writing great code, '
+                                'being able to write code that non-programmer domain experts'
+                                'understand is paramount to getting the domain model right. '
+                                'That way, the domain expert, who I am learning from, can verify '
+                                'that the logic is sound.',
+                            'I have learned that writing code that is readable is much more'
+                                'important than writing code that is clever or smart. '
+                                'The fact is, the cleverer my code is, the less maintainable it is.',
+                            'Even working with the database, I try to let my code live at as high '
+                                'a level as is reasonable within performance constraints. '
+                                'often too much time is spent in optimizing things that do not need '
+                                'to be fast. It is important to measure before you optimize, '
+                                'or arguably _any_ optimization is premature.',
+                        ]
+                    },
+                    {
+                        'reason': 'I believe that hypermedia is the future of web APIs, '
+                                    'and want to build reliable APIs to power the future.',
+                        'support': [
+                            'I want to build hypermedia because hypermedia is built on the well-known '
+                                'and proven concepts of URLs, links, and forms to build a stable and '
+                                'reliable machine-driven interfaces.',
+                            'I want to enable HTTP-browsing on the API to better enable quick '
+                                'development. I don’t have this done for my API yet, but soon. ',
+                            'I want to demonstrate that better APIs can be built if we have '
+                                'forms (actions) on the API, and that just using URI templates '
+                                'isn’t sufficient.',
+                        ]
+                    },
+                    {
+                        'reason': 'YNAB inspires me to combine beauty, motivation, '
+                                    'trustworthiness, and clarity to enable dreams, '
+                                    'both mine, and others’.',
+                        'support': [
+                            'I believe that helping people take control of their financial wellbeing '
+                                'in a culture that assumes that debt and money are out of their control '
+                                'is one of the most valuable things that I could possibly be doing with my time.',
+                            'YNAB is a team that I would love to be a part of, '
+                                'where I would be inspired by the mission and the team.',
+                            'All hiring is risky, but I’m worth the risk, and I would be'
+                                'a valuable addition to your team.',
+                        ]
+                    }
+                ]
+            },
+            'links': [
+                {'rel': ['self'], 'href': url_for('right_for_you') + '?company=simple'},
+                {'rel': ['home'], 'href': url_for('home')},
+                {'rel': ['project'], 'href': 'https://github.com/ryanhiebert/finances'},
+                {'rel': ['project'], 'href': 'https://github.com/ryanhiebert/brooke'}
+            ],
+            'actions': [],
+        })
+    elif company in ('ynab', 'YNAB'):
         return jsonify({
             'properties': {
                 'reasons': [
@@ -242,13 +316,15 @@ def right_for_you():
                 ]
             },
             'links': [
-                {'rel': ['self'], 'href': url_for('right_for_you') + '?company=simple'},
+                {'rel': ['self'], 'href': url_for('right_for_you') + '?company=ynab'},
                 {'rel': ['home'], 'href': url_for('home')},
                 {'rel': ['project'], 'href': 'https://github.com/ryanhiebert/finances'},
                 {'rel': ['project'], 'href': 'https://github.com/ryanhiebert/brooke'}
             ],
             'actions': [],
         })
+    else:
+        abort(404)
 
 @app.route('/games')
 @siren
