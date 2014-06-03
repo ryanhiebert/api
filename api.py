@@ -22,7 +22,6 @@ def siren(view):
     return _siren
 
 @app.route('/')
-@siren
 def home():
     return jsonify({
         'properties': {
@@ -97,7 +96,6 @@ def home():
     })
 
 @app.route('/contact', methods=['GET', 'POST'])
-@siren
 def contact():
     if request.method == 'GET':
         sender = request.args.get('from', '')
@@ -175,7 +173,6 @@ def contact():
     })
 
 @app.route('/right-for-you')
-@siren
 def right_for_you():
     company = request.args.get('company', '')
     if company in ('simple', 'Simple'):
@@ -327,7 +324,6 @@ def right_for_you():
         abort(404)
 
 @app.route('/games')
-@siren
 def games():
     return jsonify({
         'links': [
@@ -337,7 +333,6 @@ def games():
     })
 
 @app.route('/games/tictactoe/<state>')
-@siren
 def tictactoe(state):
     len(state) == 9 or abort(404)
     all(s in 'xo-' for s in state) or abort(404)
